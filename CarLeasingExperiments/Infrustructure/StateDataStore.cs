@@ -5,7 +5,7 @@ namespace CarLeasingExperiments.Infrustructure
 {
     public class StateDataStore : IStateDataStore
     {
-        public IStateData GetStateData(string entityId, StateEnum state)
+        public IStateData GetStateData(string entityId, string state)
         {
             // query from DB ...
 

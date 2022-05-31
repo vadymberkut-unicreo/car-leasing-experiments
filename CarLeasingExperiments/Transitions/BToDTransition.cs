@@ -1,4 +1,5 @@
-﻿using CarLeasingExperiments.Infrustructure;
+﻿using CarLeasingExperiments.Constants;
+using CarLeasingExperiments.Infrustructure;
 using CarLeasingExperiments.State;
 using MediatR;
 
@@ -6,8 +7,6 @@ namespace CarLeasingExperiments.Transitions
 {
     public class BToDTransition : ITransition<Unit>
     {
-        public IEnumerable<string> AllowedRoles { get; private set; } = new List<string>() { };
-
         public BToDTransition()
         {
         }
@@ -19,7 +18,7 @@ namespace CarLeasingExperiments.Transitions
 
         public void Execute(ITransitionData<Unit> data, IStateData? stateData)
         {
-            data.Entity.State = StateEnum.StateD;
+            data.Entity.State = StateNameIds.StateD;
         }
     }
 }

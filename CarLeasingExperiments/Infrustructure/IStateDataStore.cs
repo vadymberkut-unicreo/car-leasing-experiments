@@ -5,6 +5,6 @@ namespace CarLeasingExperiments.Infrustructure
 {
     public interface IStateDataStore
     {
-        IStateData GetStateData(string entityId, StateEnum state);
+        IStateData GetStateData(string entityId, string state);
     }
 }

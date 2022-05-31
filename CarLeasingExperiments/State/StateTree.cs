@@ -2,26 +2,27 @@
 {
     public class StateTree : IStateTree
     {
-        public StateEnum State { get; private set; }
+        public string State { get; private set; }
         public IList<IStateTreeChild> Children { get; private set; }
 
-        public StateTree(StateEnum state)
+        public StateTree(string state)
         {
             State = state;
             Children = new List<IStateTreeChild>();
         }
 
-        public IStateTree AddNextState(Type transitionType, IStateTree child)
+        public IStateTree AddNextState(string transitionNameId, IStateTree child, IEnumerable<string> allowedRoles = null)
         {
             Children.Add(new StateTreeChild()
             {
                 Child = child,
-                TransitionType = transitionType,
+                TransitionNameId = transitionNameId,
+                AllowedRoles = allowedRoles ?? new string[] { },
             });
             return this;
         }
 
-        public IEnumerable<IStateTreeChild> GetNextStates(StateEnum fromState)
+        public IEnumerable<IStateTreeChild> GetNextStates(string fromState)
         {
             if(State == fromState)
             {

@@ -9,7 +9,7 @@ namespace CarLeasingExperiments.Infrustructure
     public interface IStateData
     {
         string EntityId { get; }
-        StateEnum State { get; }
+        string State { get; }
         IEnumerable<UserEntity> Assignees { get; }
     }
 }

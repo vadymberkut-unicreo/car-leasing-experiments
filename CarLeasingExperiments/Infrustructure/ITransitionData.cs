@@ -12,5 +12,6 @@ namespace CarLeasingExperiments.Infrustructure
 
     public interface ITransitionData : ITransitionData<Unit>
     {
+        TData GetData<TData>();
     }
 }

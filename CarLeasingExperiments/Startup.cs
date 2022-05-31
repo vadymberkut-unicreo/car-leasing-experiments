@@ -1,7 +1,10 @@
-﻿using CarLeasingExperiments.Car;
+﻿using Autofac;
+using CarLeasingExperiments.Car;
+using CarLeasingExperiments.Constants;
 using CarLeasingExperiments.Controllers;
 using CarLeasingExperiments.Entities;
 using CarLeasingExperiments.Infrustructure;
+using CarLeasingExperiments.Mocks;
 using CarLeasingExperiments.State;
 using CarLeasingExperiments.Transitions;
 
@@ -17,28 +20,9 @@ namespace CarLeasingExperiments
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            // register specific state trees
-            services.AddSingleton<ICarStateTree, CarStateTree>((sp) =>
-            {
-                var tree = new CarStateTree(StateEnum.Initial);
-                tree.AddNextState(
-                    typeof(ToATransition),
-                    new CarStateTree(StateEnum.StateA)
-                        .AddNextState(
-                            typeof(AToBTransition),
-                            new CarStateTree(StateEnum.StateB)
-                                .AddNextState(
-                                    typeof(BToCTransition),
-                                    new CarStateTree(StateEnum.StateC)
-                                )
-                                .AddNextState(
-                                    typeof(BToDTransition),
-                                    new CarStateTree(StateEnum.StateD)
-                                )
-                        )
-                );
-                return tree;
-            });
+            services.AddSingleton<ITransitionRegister, TransitionRegister>();
+            services.AddTransient<ITransitionResolver, TransitionResolver>();
+            services.AddTransient<IFlowStore, FlowStore>();
 
             services.AddTransient<ICarTransitionManager, CarTransitionManager>();
             services.AddTransient<IStateDataStore, StateDataStore>();
@@ -71,25 +55,54 @@ namespace CarLeasingExperiments
                 endpoints.MapControllers()
             );
 
+            TestAutofac();
             Test(app);
+        }
+
+        private void TestAutofac()
+        {
+            var builder = new ContainerBuilder();
+            //var container = builder.Build();
         }
 
         private void Test(IApplicationBuilder app)
         {
+            var flowStore = app.ApplicationServices.GetRequiredService<IFlowStore>();
             var carTransitionManager = app.ApplicationServices.GetRequiredService<ICarTransitionManager>();
 
             UserEntity currentUserEntity = new UserEntity()
             {
-                Roles = new string[] { "SuperAdmin" },
+                Roles = new string[] { "SuperAdmin", "Admin", "Dealer" },
             };
-            CarEntity carEntity = new CarEntity();
-            
-            carTransitionManager.Transit(currentUserEntity, carEntity, StateEnum.StateA);
-            carTransitionManager.Transit(currentUserEntity, carEntity, StateEnum.StateB);
+
+            FlowEntity mainCarFlow = DbMock.Flows.Single(x => x.Id == "MainCarFlow");
+            FlowEntity alternativeCarFlow = DbMock.Flows.Single(x => x.Id == "AlternativeCarFlow");
+
+            CarEntity car1 = DbMock.Cars.Single(x => x.Id == "Car1");
+            CarEntity car2 = DbMock.Cars.Single(x => x.Id == "Car2");
+            CarEntity car3 = DbMock.Cars.Single(x => x.Id == "Car3");
+
+            flowStore.SetEntityFlow(car1.Id, mainCarFlow.Id);
+            flowStore.SetEntityFlow(car2.Id, alternativeCarFlow.Id);
+            // car3 has no explicit flow set
+
+            // car1
+            carTransitionManager.Transit(currentUserEntity, car1, StateNameIds.StateA);
+            carTransitionManager.Transit(currentUserEntity, car1, StateNameIds.StateB, new AToBTransitionData() { Message = "Test" });
             
             // next state can be C or D
-            carTransitionManager.Transit(currentUserEntity, carEntity, StateEnum.StateC, new BToCTransitionData() { Limit = 10 });
-            // carTransitionManager.Transit(currentUserEntity, carEntity, StateEnum.StateD);
+            carTransitionManager.Transit(currentUserEntity, car1, StateNameIds.StateC, new BToCTransitionData() { Limit = 10 });
+            // carTransitionManager.Transit(currentUserEntity, carEntity, StateNameIds.StateD);
+
+            // car2
+            carTransitionManager.Transit(currentUserEntity, car2, StateNameIds.StateA);
+            carTransitionManager.Transit(currentUserEntity, car2, StateNameIds.StateB, new AToBTransitionData() { Message = "Test" });
+            //carTransitionManager.Transit(currentUserEntity, car2, StateNameIds.StateC); // error
+
+            // car3
+            carTransitionManager.Transit(currentUserEntity, car3, StateNameIds.StateA);
+            carTransitionManager.Transit(currentUserEntity, car3, StateNameIds.StateB, new AToBTransitionData() { Message = "Test" });
+            carTransitionManager.Transit(currentUserEntity, car3, StateNameIds.StateD);
         }
     }
 }

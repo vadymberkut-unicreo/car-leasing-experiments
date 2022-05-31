@@ -1,4 +1,5 @@
-﻿using CarLeasingExperiments.Entities;
+﻿using CarLeasingExperiments.Constants;
+using CarLeasingExperiments.Entities;
 using CarLeasingExperiments.Infrustructure;
 using CarLeasingExperiments.State;
 
@@ -7,10 +8,15 @@ namespace CarLeasingExperiments.Car
     public class CarTransitionManager : TransitionManager, ICarTransitionManager
     {
         public CarTransitionManager(
-            IServiceProvider serviceProvider,
-            IStateDataStore stateDataStore,
-            ICarStateTree stateTree
-        ) : base(serviceProvider, stateDataStore, stateTree)
+            ITransitionResolver transitionResolver,
+            IFlowStore flowStore,
+            IStateDataStore stateDataStore
+        ) : base(
+            FlowTargets.Car,
+            transitionResolver,
+            flowStore,
+            stateDataStore
+        )
         {
         }
     }

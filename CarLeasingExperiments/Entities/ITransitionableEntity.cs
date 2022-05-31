@@ -5,6 +5,6 @@ namespace CarLeasingExperiments.Entities
     public interface ITransitionableEntity
     {
         public string Id { get; set; }
-        public StateEnum State { get; set; }
+        public string State { get; set; }
     }
 }

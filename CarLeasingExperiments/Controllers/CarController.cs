@@ -1,4 +1,5 @@
 ﻿using CarLeasingExperiments.Car;
+using CarLeasingExperiments.Constants;
 using CarLeasingExperiments.Entities;
 using CarLeasingExperiments.State;
 using CarLeasingExperiments.Transitions;
@@ -25,7 +26,7 @@ namespace CarLeasingExperiments.Controllers
             UserEntity currentUserEntity = new UserEntity(); //get from DB
             CarEntity carEntity = new CarEntity(); // get from DB
 
-            _transitionManager.Transit(currentUserEntity, carEntity, StateEnum.StateA, data);
+            _transitionManager.Transit(currentUserEntity, carEntity, StateNameIds.StateA, data);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CarLeasingExperiments.Infrustructure;
+﻿using CarLeasingExperiments.Constants;
+using CarLeasingExperiments.Infrustructure;
 using CarLeasingExperiments.State;
 
 namespace CarLeasingExperiments.Transitions
@@ -11,8 +12,6 @@ namespace CarLeasingExperiments.Transitions
 
     public class BToCTransition : ITransition<BToCTransitionData>
     {
-        public IEnumerable<string> AllowedRoles { get; private set; } = new List<string>()  { };
-
         public BToCTransition()
         {
         }
@@ -24,7 +23,7 @@ namespace CarLeasingExperiments.Transitions
 
         public void Execute(ITransitionData<BToCTransitionData> data, IStateData? stateData)
         {
-            data.Entity.State = StateEnum.StateC;
+            data.Entity.State = StateNameIds.StateC;
         }
     }
 }

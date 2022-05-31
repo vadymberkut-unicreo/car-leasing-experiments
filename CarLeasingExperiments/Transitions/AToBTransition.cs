@@ -1,29 +1,27 @@
-﻿using CarLeasingExperiments.Infrustructure;
-using CarLeasingExperiments.State;
-using MediatR;
+﻿using CarLeasingExperiments.Constants;
+using CarLeasingExperiments.Infrustructure;
 
 namespace CarLeasingExperiments.Transitions
 {
-    public class AToBTransition : ITransition<Unit>
+    public class AToBTransitionData
     {
-        public IEnumerable<string> AllowedRoles { get; private set; } = new List<string>()
-        {
-            "SuperAdmin",
-            "Admin",
-        };
+        public string Message { get; set; }
+    }
 
+    public class AToBTransition : ITransition<AToBTransitionData>
+    {
         public AToBTransition()
         {
         }
 
-        public bool Validate(ITransitionData<Unit> data, IStateData? stateData)
+        public bool Validate(ITransitionData<AToBTransitionData> data, IStateData? stateData)
         {
-            return data.User != null && AllowedRoles.Any(role => data.User.Roles.Contains(role));
+            return data.User != null;
         }
 
-        public void Execute(ITransitionData<Unit> data, IStateData? stateData)
+        public void Execute(ITransitionData<AToBTransitionData> data, IStateData? stateData)
         {
-            data.Entity.State = StateEnum.StateB;
+            data.Entity.State = StateNameIds.StateB;
         }
     }
 }
