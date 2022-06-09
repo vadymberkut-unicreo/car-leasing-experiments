@@ -4,24 +4,24 @@ using CarLeasingExperiments.State;
 
 namespace CarLeasingExperiments.Transitions
 {
-    public class BToCTransitionData
+    public class ToCTransitionData
     {
         public int Limit { get; set; }
         public string SomeId { get; set; }
     }
 
-    public class BToCTransition : ITransition<BToCTransitionData>
+    public class ToCTransition : ITransition<ToCTransitionData>
     {
-        public BToCTransition()
+        public ToCTransition()
         {
         }
 
-        public bool Validate(ITransitionData<BToCTransitionData> data, IStateData? stateData)
+        public bool Validate(ITransitionData<ToCTransitionData> data, IStateData? stateData)
         {
             return data.Data != null && data.Data.Limit < 100;
         }
 
-        public void Execute(ITransitionData<BToCTransitionData> data, IStateData? stateData)
+        public void Execute(ITransitionData<ToCTransitionData> data, IStateData? stateData)
         {
             data.Entity.State = StateNameIds.StateC;
         }

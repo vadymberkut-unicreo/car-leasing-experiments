@@ -20,16 +20,16 @@ namespace CarLeasingExperiments.Mocks
                     allowedRoles: new string[] { "SuperAdmin" },
                     child: new StateTree(StateNameIds.StateA)
                         .AddNextState(
-                            transitionNameId: TransitionNameIds.AToBTransition,
+                            transitionNameId: TransitionNameIds.ToBTransition,
                             allowedRoles: new string[] { "Admin", "Dealer" },
                              child: new StateTree(StateNameIds.StateB)
                                 .AddNextState(
-                                    transitionNameId: TransitionNameIds.BToCTransition,
+                                    transitionNameId: TransitionNameIds.ToCTransition,
                                     allowedRoles: new string[] { "Dealer" },
                                     child: new StateTree(StateNameIds.StateC)
                                 )
                                 .AddNextState(
-                                    transitionNameId: TransitionNameIds.BToDTransition,
+                                    transitionNameId: TransitionNameIds.ToDTransition,
                                     allowedRoles: new string[] { "Dealer" },
                                     child: new StateTree(StateNameIds.StateD)
                                 )
@@ -47,7 +47,7 @@ namespace CarLeasingExperiments.Mocks
                     allowedRoles: new string[] { },
                     child: new StateTree(StateNameIds.StateA)
                         .AddNextState(
-                            transitionNameId: TransitionNameIds.AToBTransition,
+                            transitionNameId: TransitionNameIds.ToBTransition,
                             allowedRoles: new string[] { },
                             child: new StateTree(StateNameIds.StateB)
                         )

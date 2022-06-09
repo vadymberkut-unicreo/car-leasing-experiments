@@ -21,7 +21,7 @@ namespace CarLeasingExperiments.Controllers
         }
 
         [HttpPost]
-        public void Submit([FromQuery]string carId, [FromBody] BToCTransitionData data)
+        public void Submit([FromQuery]string carId, [FromBody] ToCTransitionData data)
         {
             UserEntity currentUserEntity = new UserEntity(); //get from DB
             CarEntity carEntity = new CarEntity(); // get from DB

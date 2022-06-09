@@ -3,23 +3,23 @@ using CarLeasingExperiments.Infrustructure;
 
 namespace CarLeasingExperiments.Transitions
 {
-    public class AToBTransitionData
+    public class ToBTransitionData
     {
         public string Message { get; set; }
     }
 
-    public class AToBTransition : ITransition<AToBTransitionData>
+    public class ToBTransition : ITransition<ToBTransitionData>
     {
-        public AToBTransition()
+        public ToBTransition()
         {
         }
 
-        public bool Validate(ITransitionData<AToBTransitionData> data, IStateData? stateData)
+        public bool Validate(ITransitionData<ToBTransitionData> data, IStateData? stateData)
         {
             return data.User != null;
         }
 
-        public void Execute(ITransitionData<AToBTransitionData> data, IStateData? stateData)
+        public void Execute(ITransitionData<ToBTransitionData> data, IStateData? stateData)
         {
             data.Entity.State = StateNameIds.StateB;
         }

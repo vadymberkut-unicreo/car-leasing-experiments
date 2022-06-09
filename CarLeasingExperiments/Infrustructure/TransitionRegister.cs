@@ -11,9 +11,9 @@ namespace CarLeasingExperiments.Infrustructure
         private readonly IDictionary<string, Type> _register = new Dictionary<string, Type>()
         {
             { TransitionNameIds.ToATransition, typeof(ToATransition) },
-            { TransitionNameIds.AToBTransition, typeof(AToBTransition) },
-            { TransitionNameIds.BToCTransition, typeof(BToCTransition) },
-            { TransitionNameIds.BToDTransition, typeof(BToDTransition) },
+            { TransitionNameIds.ToBTransition, typeof(ToBTransition) },
+            { TransitionNameIds.ToCTransition, typeof(ToCTransition) },
+            { TransitionNameIds.ToDTransition, typeof(ToDTransition) },
         };
 
         public Type? GetTransitionType(string transitionNameId)

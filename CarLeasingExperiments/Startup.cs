@@ -29,9 +29,9 @@ namespace CarLeasingExperiments
 
             // register transitions
             services.AddTransient<ToATransition>();
-            services.AddTransient<AToBTransition>();
-            services.AddTransient<BToCTransition>();
-            services.AddTransient<BToDTransition>();
+            services.AddTransient<ToBTransition>();
+            services.AddTransient<ToCTransition>();
+            services.AddTransient<ToDTransition>();
 
             return services.BuildServiceProvider();
         }
@@ -88,20 +88,20 @@ namespace CarLeasingExperiments
 
             // car1
             carTransitionManager.Transit(currentUserEntity, car1, StateNameIds.StateA);
-            carTransitionManager.Transit(currentUserEntity, car1, StateNameIds.StateB, new AToBTransitionData() { Message = "Test" });
+            carTransitionManager.Transit(currentUserEntity, car1, StateNameIds.StateB, new ToBTransitionData() { Message = "Test" });
             
             // next state can be C or D
-            carTransitionManager.Transit(currentUserEntity, car1, StateNameIds.StateC, new BToCTransitionData() { Limit = 10 });
+            carTransitionManager.Transit(currentUserEntity, car1, StateNameIds.StateC, new ToCTransitionData() { Limit = 10 });
             // carTransitionManager.Transit(currentUserEntity, carEntity, StateNameIds.StateD);
 
             // car2
             carTransitionManager.Transit(currentUserEntity, car2, StateNameIds.StateA);
-            carTransitionManager.Transit(currentUserEntity, car2, StateNameIds.StateB, new AToBTransitionData() { Message = "Test" });
+            carTransitionManager.Transit(currentUserEntity, car2, StateNameIds.StateB, new ToBTransitionData() { Message = "Test" });
             //carTransitionManager.Transit(currentUserEntity, car2, StateNameIds.StateC); // error
 
             // car3
             carTransitionManager.Transit(currentUserEntity, car3, StateNameIds.StateA);
-            carTransitionManager.Transit(currentUserEntity, car3, StateNameIds.StateB, new AToBTransitionData() { Message = "Test" });
+            carTransitionManager.Transit(currentUserEntity, car3, StateNameIds.StateB, new ToBTransitionData() { Message = "Test" });
             carTransitionManager.Transit(currentUserEntity, car3, StateNameIds.StateD);
         }
     }

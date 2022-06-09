@@ -5,9 +5,9 @@ using MediatR;
 
 namespace CarLeasingExperiments.Transitions
 {
-    public class BToDTransition : ITransition<Unit>
+    public class ToDTransition : ITransition<Unit>
     {
-        public BToDTransition()
+        public ToDTransition()
         {
         }
 

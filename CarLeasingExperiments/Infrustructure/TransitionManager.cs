@@ -68,6 +68,7 @@ namespace CarLeasingExperiments.Infrustructure
             {
                 User = user,
                 Entity = entity,
+                NewState = newState,
                 Data = data,
             };
 
